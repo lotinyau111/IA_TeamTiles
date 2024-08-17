@@ -5,6 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class SetGameBoard : MonoBehaviour
 {
     public string[] gameBoard = new string[36]; // real game board display (include ram
@@ -14,21 +15,13 @@ public class SetGameBoard : MonoBehaviour
     public GameObject _30, _31, _32, _33, _34, _35;
     public GameObject _40, _41, _42, _43, _44, _45;
     public GameObject _50, _51, _52, _53, _54, _55;
-
+    //   public GameObject _003D;
     public GameObject[] _0, _1, _2, _3, _4, _5;
     public GameObject[][] table, gameTable;
+    //    public GameObject pre0, pre1, pre2, pre3, pre4, pre5;
     // Start is called before the first frame update
     void Start()
     {
-        /*
-                _0 = new GameObject[6] { _00, _01, _02, _03, _04, _05 };
-                _1 = new GameObject[6] { _10, _11, _12, _13, _14, _15 };
-                _2 = new GameObject[6] { _20, _21, _22, _23, _24, _25 };
-                _3 = new GameObject[6] { _30, _31, _32, _33, _34, _35 };
-                _4 = new GameObject[6] { _40, _41, _42, _43, _44, _45 };
-                _5 = new GameObject[6] { _50, _51, _52, _53, _54, _55 };
-                table = new GameObject[][] { _0, _1, _2, _3, _4, _5 };
-        */
         gameTable = new GameObject[6][];
         gameTable[0] = new GameObject[6] { _00, _01, _02, _03, _04, _05 };
         gameTable[1] = new GameObject[6] { _10, _11, _12, _13, _14, _15 };
@@ -36,6 +29,7 @@ public class SetGameBoard : MonoBehaviour
         gameTable[3] = new GameObject[6] { _30, _31, _32, _33, _34, _35 };
         gameTable[4] = new GameObject[6] { _40, _41, _42, _43, _44, _45 };
         gameTable[5] = new GameObject[6] { _50, _51, _52, _53, _54, _55 };
+
 
 
         for (int i = 0; i < gameBoard.Length; i++)
@@ -46,6 +40,9 @@ public class SetGameBoard : MonoBehaviour
 
         gameBoard[Random.Range(0, 36)] = "A";
         gameBoard[Random.Range(0, 36)] = "B";
+
+
+
     }
 
     // Update is called once per frame
@@ -61,8 +58,24 @@ public class SetGameBoard : MonoBehaviour
                 Debug.Log("When j = " + j + ", k = " + k + ", i = " + i);
             }
         }
+    }
 
-        
+    public int getLocation(char player, char location)
+    {
+        for (int i = 0; i < gameBoard.Length; i++)  // gameBoard is an array[]  gameTable[][] is table
+            for (int j = 0; j < gameBoard[i].Length; j++)
+            {
+                if (gameBoard[i][j] == player && location == 'X')
+                    return i;
 
+                //if (gameBoard[i][j] == player && location == 'Y')
+                //    return j;
+            }
+        return -1;
+    }
+
+    public void abc()
+    {
+        Debug.Log("A");
     }
 }
