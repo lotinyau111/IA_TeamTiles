@@ -7,30 +7,19 @@ using UnityEngine;
 public class MouseClick : MonoBehaviour
 {
     //  public SetGameBoard gameBoard;
-    public GameObject go;
-    private SetGameBoard setGameBoard;
+    public GameObject gameManager;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        setGameBoard = go.GetComponent<SetGameBoard>();
+        //setGameBoard = gameManager.GetComponent<SetGameBoard>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-                
-            if (Physics.Raycast(ray, out hit))
-            {
-                Debug.Log(hit.transform.gameObject.name);
-                
-            }
-            Debug.Log("Mouse Clicked - InputGetMouseDown");
-        }
+       
     }
 
     public void MoveUp()
@@ -43,5 +32,21 @@ public class MouseClick : MonoBehaviour
         Debug.Log("Mouse Clicked - MoveDown");
     }
 
-
+    public void MoveLeft()
+    {
+        Debug.Log("Mouse Clicked - MoveLeft");
     }
+
+    public void MoveRight()
+    {
+        Debug.Log("Mouse Clicked - MoveRight");
+    }
+
+    public void MoveSkip()
+    {
+        gameManager.GetComponent<GameManager>().swapPlayer();
+        Debug.Log("Mouse Clicked - MoveSkip");
+    }
+
+
+}

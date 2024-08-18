@@ -5,7 +5,6 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-
 public class SetGameBoard : MonoBehaviour
 {
     public string[] gameBoard = new string[36]; // real game board display (include ram
@@ -55,7 +54,7 @@ public class SetGameBoard : MonoBehaviour
             {
                 gameTable[j][k].GetComponent<Text>().text = gameBoard[i];
                 i++;
-              //  Debug.Log("When j = " + j + ", k = " + k + ", i = " + i);//
+                //  Debug.Log("When j = " + j + ", k = " + k + ", i = " + i);//
             }
         }
     }
@@ -68,9 +67,11 @@ public class SetGameBoard : MonoBehaviour
                 if (gameTable[i][j].GetComponent<Text>().text == player && location == 'X')
                     return i;
 
-               if (gameTable[i][j].GetComponent<Text>().text == player && location == 'Y')
-                   return j;
+                if (gameTable[i][j].GetComponent<Text>().text == player && location == 'Y')
+                    return j;
             }
         return -1;
     }
+
+    public int getGameTableValue(int x, int y) { return System.Int32.Parse(gameTable[x][y].ToString()); }
 }
