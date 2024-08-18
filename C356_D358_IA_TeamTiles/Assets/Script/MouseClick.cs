@@ -21,14 +21,27 @@ public class MouseClick : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            MoveUp();
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+                
+            if (Physics.Raycast(ray, out hit))
+            {
+                Debug.Log(hit.transform.gameObject.name);
+                
+            }
+            Debug.Log("Mouse Clicked - InputGetMouseDown");
         }
     }
 
-    void MoveUp()
+    public void MoveUp()
     {
-        Debug.Log(go.GetComponent<SetGameBoard>().getLocation('A', 'X'));
+        
+    }
+
+    public void MoveDown()
+    {
+        Debug.Log("Mouse Clicked - MoveDown");
     }
 
 
-}
+    }

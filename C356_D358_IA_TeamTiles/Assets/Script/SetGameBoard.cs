@@ -55,27 +55,22 @@ public class SetGameBoard : MonoBehaviour
             {
                 gameTable[j][k].GetComponent<Text>().text = gameBoard[i];
                 i++;
-                Debug.Log("When j = " + j + ", k = " + k + ", i = " + i);
+              //  Debug.Log("When j = " + j + ", k = " + k + ", i = " + i);//
             }
         }
     }
 
-    public int getLocation(char player, char location)
+    public int getLocation(string player, char location)
     {
-        for (int i = 0; i < gameBoard.Length; i++)  // gameBoard is an array[]  gameTable[][] is table
-            for (int j = 0; j < gameBoard[i].Length; j++)
+        for (int i = 0; i < gameTable.Length; i++)
+            for (int j = 0; j < gameTable[i].Length; j++)
             {
-                if (gameBoard[i][j] == player && location == 'X')
+                if (gameTable[i][j].GetComponent<Text>().text == player && location == 'X')
                     return i;
 
-                //if (gameBoard[i][j] == player && location == 'Y')
-                //    return j;
+               if (gameTable[i][j].GetComponent<Text>().text == player && location == 'Y')
+                   return j;
             }
         return -1;
-    }
-
-    public void abc()
-    {
-        Debug.Log("A");
     }
 }
