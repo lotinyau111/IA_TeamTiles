@@ -40,23 +40,23 @@ public class SetGameBoard : MonoBehaviour
         gameBoard[Random.Range(0, 36)] = "A";
         gameBoard[Random.Range(0, 36)] = "B";
 
-
+        int ii = 0;
+        for (int j = 0; j < gameTable.Length; j++)
+        {
+            for (int k = 0; k < gameTable[j].Length; k++)
+            {
+                gameTable[j][k].GetComponent<Text>().text = gameBoard[ii];
+                ii++;
+                //  Debug.Log("When j = " + j + ", k = " + k + ", i = " + i);//
+            }
+        }
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        int i = 0;
-        for (int j = 0; j < gameTable.Length; j++)
-        {
-            for (int k = 0; k < gameTable[j].Length; k++)
-            {
-                gameTable[j][k].GetComponent<Text>().text = gameBoard[i];
-                i++;
-                //  Debug.Log("When j = " + j + ", k = " + k + ", i = " + i);//
-            }
-        }
+      
     }
 
     public int getLocation(string player, char location)
@@ -73,5 +73,17 @@ public class SetGameBoard : MonoBehaviour
         return -1;
     }
 
-    public int getGameTableValue(int x, int y) { return System.Int32.Parse(gameTable[x][y].ToString()); }
+    public int getGameTableValue(int x, int y)
+    {
+        return int.Parse(gameTable[x][y].GetComponent<Text>().text);
+    }
+
+    public string getGameTableText(int x, int y)
+    {
+        return gameTable[x][y].GetComponent<Text>().text;
+    }
+
+
+ 
 }
+

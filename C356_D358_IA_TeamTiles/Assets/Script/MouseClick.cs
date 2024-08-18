@@ -8,6 +8,7 @@ public class MouseClick : MonoBehaviour
 {
     //  public SetGameBoard gameBoard;
     public GameObject gameManager;
+    private bool bothSkip;
 
 
     // Start is called before the first frame update
@@ -24,28 +25,50 @@ public class MouseClick : MonoBehaviour
 
     public void MoveUp()
     {
-        
+        bothSkip = false;
+        gameManager.GetComponent<GameManager>().move(-1, 0);
+        commonCheck();
     }
 
     public void MoveDown()
     {
-        Debug.Log("Mouse Clicked - MoveDown");
+        bothSkip = false;
+        gameManager.GetComponent<GameManager>().move(1, 0);
+        commonCheck();
     }
 
     public void MoveLeft()
     {
-        Debug.Log("Mouse Clicked - MoveLeft");
+        bothSkip = false;
+        gameManager.GetComponent<GameManager>().move(0, -1);
+        commonCheck();
     }
 
     public void MoveRight()
     {
-        Debug.Log("Mouse Clicked - MoveRight");
+        bothSkip = false;
+        gameManager.GetComponent<GameManager>().move(0, 1);
+        commonCheck();
+
     }
 
     public void MoveSkip()
     {
+        if (bothSkip) gameManager.GetComponent<GameManager>().gameLoss();
+        else
+        {
+            gameManager.GetComponent<GameManager>().addScore(-1);
+            commonCheck();
+            bothSkip = true;
+        }
+        
+    }
+
+    public void commonCheck()
+    {
+        gameManager.GetComponent<GameManager>().checkWin();
         gameManager.GetComponent<GameManager>().swapPlayer();
-        Debug.Log("Mouse Clicked - MoveSkip");
+        gameManager.GetComponent<GameManager>().addRound();
     }
 
 
