@@ -145,7 +145,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            gameMamager.GetComponent<SetGameBoard>().gameTable[currX][currY].GetComponent<Text>().text 
+            gameMamager.GetComponent<SetGameBoard>().gameTable[currX][currY].GetComponent<Text>().text
                 = (gameMamager.GetComponent<SetGameBoard>().getGameTableValue((currX + x), (currY + y)) - 1).ToString();
             gameMamager.GetComponent<SetGameBoard>().gameTable[currX + x][currY + y].GetComponent<Text>().text = getCurrentPlayer();
             addScore(1);
@@ -163,7 +163,9 @@ public class GameManager : MonoBehaviour
         {
             for (int j = 0; j < gameMamager.GetComponent<SetGameBoard>().gameTable[i].Length; j++)
             {
-                if (gameMamager.GetComponent<SetGameBoard>().gameTable[i][j].GetComponent<Text>().text != "0")
+                if (gameMamager.GetComponent<SetGameBoard>().gameTable[i][j].GetComponent<Text>().text != "0" &&
+                    gameMamager.GetComponent<SetGameBoard>().gameTable[i][j].GetComponent<Text>().text != "A" &&
+                    gameMamager.GetComponent<SetGameBoard>().gameTable[i][j].GetComponent<Text>().text != "B")
                 {
                     all0 = false;
                     break;
