@@ -40,7 +40,7 @@ public class Numbers : MonoBehaviour
                 if (gameManager.GetComponent<SetGameBoard>().gameTable[x][y].GetComponent<Text>().text == gameTableContents[i])
                 {
                     _all_num[j][i].SetActive(true);
-                    _all_num[j][i].transform.Rotate(new Vector3(0, 0.5f, 0));
+                    _all_num[j][i].transform.Rotate(new Vector3(0, 0.75f, 0));
                     Debug.Log("X" + x + "y" + y + "j" + j + "i" + i);
                 }
                 else _all_num[j][i].SetActive(false);
