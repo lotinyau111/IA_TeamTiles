@@ -141,7 +141,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &10096280
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -364,6 +364,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainScene: {fileID: 10096279}
   howToPlayScene: {fileID: 2023349948}
+  htpP1: {fileID: 759442098}
+  htpP2: {fileID: 1294247614}
+  htpBtnPrevious: {fileID: 736722237}
+  htpBtnNext: {fileID: 2009348106}
+  htpBtnHome: {fileID: 1465477820}
 --- !u!4 &228286715
 Transform:
   m_ObjectHideFlags: 0
@@ -798,7 +803,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 736722240}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 228286714}
+        m_TargetAssemblyTypeName: MainPageManager, Assembly-CSharp
+        m_MethodName: htpPreviousPage
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &736722240
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1166,7 +1183,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1465477823}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 228286714}
+        m_TargetAssemblyTypeName: MainPageManager, Assembly-CSharp
+        m_MethodName: htpBackHome
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
 --- !u!114 &1465477823
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2017,7 +2046,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2009348109}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 228286714}
+        m_TargetAssemblyTypeName: MainPageManager, Assembly-CSharp
+        m_MethodName: htpNextPage
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2009348109
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2074,7 +2115,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2023349949
 MonoBehaviour:
   m_ObjectHideFlags: 0
