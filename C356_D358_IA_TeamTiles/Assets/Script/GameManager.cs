@@ -86,7 +86,6 @@ public class GameManager : MonoBehaviour
         }
         else if (getCurrentPlayer() == "B")
         {
-
             try { if (gameMamager.GetComponent<SetGameBoard>().getGameTableText(currX - 1, currY) == "A") btnUp.SetActive(false); }
             catch (IndexOutOfRangeException) { }
             try { if (gameMamager.GetComponent<SetGameBoard>().getGameTableText(currX + 1, currY) == "A") btnDown.SetActive(false); }
@@ -97,10 +96,22 @@ public class GameManager : MonoBehaviour
             catch (IndexOutOfRangeException) { }
         }
 
-        // check player position
-        // check able to move that direction
-        // check table
-        // move
+
+        if (btnUp.activeSelf)
+            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
+                GetComponent<MouseClick>().MoveUp();
+
+        if (btnDown.activeSelf)
+            if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
+                GetComponent<MouseClick>().MoveDown();
+
+        if (btnLeft.activeSelf)
+            if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
+                GetComponent<MouseClick>().MoveLeft();
+
+        if (btnRight.activeSelf)
+            if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
+                GetComponent<MouseClick>().MoveRight();
     }
 
     public string getCurrentPlayer()
@@ -149,12 +160,8 @@ public class GameManager : MonoBehaviour
                 = (gameMamager.GetComponent<SetGameBoard>().getGameTableValue((currX + x), (currY + y)) - 1).ToString();
             gameMamager.GetComponent<SetGameBoard>().gameTable[currX + x][currY + y].GetComponent<Text>().text = getCurrentPlayer();
             addScore(1);
-
         }
-
     }
-
-
 
     public void checkWin()
     {
