@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MainPageManager : MonoBehaviour
 {
@@ -9,6 +10,10 @@ public class MainPageManager : MonoBehaviour
     public GameObject mainScene, howToPlayScene;
 
     public GameObject htpP1, htpP2, htpBtnPrevious, htpBtnNext, htpBtnHome;
+
+    public GameObject displayRank, displayName, displayScore, displayRound, txtpage;
+    public GameObject btnPrevious, btnNext;
+    int leaderboardpage;
     //  public GameObject mainpageManager;
     // Start is called before the first frame update
     void Start()
@@ -63,5 +68,63 @@ public class MainPageManager : MonoBehaviour
     {
         mainScene.SetActive(true);
         howToPlayScene.SetActive(false);
+    }
+
+    public void showLeaderboard()
+    {
+        leaderboardpage = 0;
+        printLeaderBoard();
+    }
+
+    public void printLeaderBoard()
+    {
+        txtpage.GetComponent<Text>().text = "Page " + (leaderboardpage + 1).ToString() + " of Page 10";
+        displayRank.GetComponent<Text>().text = "";
+        displayName.GetComponent<Text>().text = "";
+        displayScore.GetComponent<Text>().text = "";
+        displayRound.GetComponent<Text>().text = "";
+
+        if (leaderboardpage == 0) btnPrevious.SetActive(false); else btnPrevious.SetActive(true);
+        if (leaderboardpage == 9) btnNext.SetActive(false); else btnNext.SetActive(true);
+
+        for (int i = 1; i <= 10; i++) displayRank.GetComponent<Text>().text += (leaderboardpage*10 + i) + "\n";
+
+        string leaderboardData = PlayerPrefs.GetString("scoreLeaderboard", "");
+        if (!string.IsNullOrEmpty(leaderboardData))
+        {
+            string[] entries = leaderboardData.Split('|');
+
+            int lastData = (leaderboardpage * 10) + 10;  //6 
+            if (entries.Length < lastData)
+            {
+                lastData = entries.Length;    //6
+            }
+            
+            for (int i = leaderboardpage*10; i < lastData; i++)
+            {
+                Debug.Log("last data " + lastData + " i = " + i);
+                if (!string.IsNullOrEmpty(entries[i]))
+                {
+
+                    string[] parts = entries[i].Split(',');
+                    displayName.GetComponent<Text>().text += parts[0] + "\n";
+                    displayScore.GetComponent<Text>().text += parts[1] + "\n";
+                    displayRound.GetComponent<Text>().text += parts[2] + "\n";
+                }
+            }
+        }
+        else Debug.LogWarning("EMPTY");
+    }
+
+    public void nextPage()
+    {
+        leaderboardpage++;
+        printLeaderBoard();
+    }
+
+    public void previousPage()
+    {
+        leaderboardpage--;
+        printLeaderBoard();
     }
 }

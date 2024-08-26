@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,7 +10,9 @@ public class GameManager : MonoBehaviour
     public GameObject gameMamager, btnUp, btnDown, btnLeft, btnRight;
     private int currentPlayer = -1;
     private int round = 0, score = 0;
-    public GameObject playerDesc;
+    public GameObject playerDesc, menuPage, winPage, winStatement, playerName, lossPage;
+
+
 
 
     // Start is called before the first frame update
@@ -17,6 +20,11 @@ public class GameManager : MonoBehaviour
     {
         currentPlayer = 0;
         round = 1;
+        menuPage.SetActive(false);
+        btnUp.GetComponent<Button>().enabled = true;
+        btnDown.GetComponent<Button>().enabled = true;
+        btnLeft.GetComponent<Button>().enabled = true;
+        btnRight.GetComponent<Button>().enabled = true;
     }
 
     // Update is called once per frame
@@ -53,24 +61,15 @@ public class GameManager : MonoBehaviour
             catch (IndexOutOfRangeException) { }
             catch (FormatException) { }
 
-            try
-            {
-                if (gameMamager.GetComponent<SetGameBoard>().getGameTableValue(currX + 1, currY) > 1) btnDown.SetActive(false);
-            }
+            try { if (gameMamager.GetComponent<SetGameBoard>().getGameTableValue(currX + 1, currY) > 1) btnDown.SetActive(false); }
             catch (IndexOutOfRangeException) { }
             catch (FormatException) { }
 
-            try
-            {
-                if (gameMamager.GetComponent<SetGameBoard>().getGameTableValue(currX, currY - 1) > 1) btnLeft.SetActive(false);
-            }
+            try { if (gameMamager.GetComponent<SetGameBoard>().getGameTableValue(currX, currY - 1) > 1) btnLeft.SetActive(false); }
             catch (IndexOutOfRangeException) { }
             catch (FormatException) { }
 
-            try
-            {
-                if (gameMamager.GetComponent<SetGameBoard>().getGameTableValue(currX, currY + 1) > 1) btnRight.SetActive(false);
-            }
+            try { if (gameMamager.GetComponent<SetGameBoard>().getGameTableValue(currX, currY + 1) > 1) btnRight.SetActive(false); }
             catch (IndexOutOfRangeException) { }
             catch (FormatException) { }
 
@@ -96,23 +95,40 @@ public class GameManager : MonoBehaviour
             catch (IndexOutOfRangeException) { }
         }
 
+        if (!menuPage.activeSelf && !winPage.activeSelf)
+        {
+            if (btnUp.activeSelf)
+                if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
+                    GetComponent<MouseClick>().MoveUp();
 
-        if (btnUp.activeSelf)
-            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
-                GetComponent<MouseClick>().MoveUp();
+            if (btnDown.activeSelf)
+                if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
+                    GetComponent<MouseClick>().MoveDown();
 
-        if (btnDown.activeSelf)
-            if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
-                GetComponent<MouseClick>().MoveDown();
+            if (btnLeft.activeSelf)
+                if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
+                    GetComponent<MouseClick>().MoveLeft();
 
-        if (btnLeft.activeSelf)
-            if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
-                GetComponent<MouseClick>().MoveLeft();
+            if (btnRight.activeSelf)
+                if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
+                    GetComponent<MouseClick>().MoveRight();
+        }
 
-        if (btnRight.activeSelf)
-            if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
-                GetComponent<MouseClick>().MoveRight();
-    }
+        if (menuPage.activeSelf || winPage.activeSelf)
+        {
+            btnUp.GetComponent<Button>().enabled = false;
+            btnDown.GetComponent<Button>().enabled = false;
+            btnLeft.GetComponent<Button>().enabled = false;
+            btnRight.GetComponent<Button>().enabled = false;
+        }
+        else
+        {
+            btnUp.GetComponent<Button>().enabled = true;
+            btnDown.GetComponent<Button>().enabled = true;
+            btnLeft.GetComponent<Button>().enabled = true;
+            btnRight.GetComponent<Button>().enabled = true;
+        }
+    } // EndUpdate
 
     public string getCurrentPlayer()
     {
@@ -180,7 +196,13 @@ public class GameManager : MonoBehaviour
             }
 
         }
-        if (all0) Debug.Log("WIN");
+        if (all0)
+        {
+            winPage.SetActive(true);
+            winStatement.GetComponent<Text>().text = "You win at Round " + round + " at score " + score + ". \n" +
+                "Enter your name to add record to the leaderboard.";
+
+        }
     }
 
     public void gameLoss()
@@ -189,7 +211,6 @@ public class GameManager : MonoBehaviour
         btnDown.SetActive(false);
         btnLeft.SetActive(false);
         btnRight.SetActive(false);
-
     }
 
     public void addScore(int score)
@@ -197,4 +218,35 @@ public class GameManager : MonoBehaviour
         this.score += score;
         Debug.Log("Score Added: " + score + ", current score: " + this.score);
     }
+
+    public void resetGame()
+    {
+        GetComponent<SetGameBoard>().resetGame();
+        Start();
+    }
+
+    public void onMenuPage()
+    {
+
+        //   if (menuPage.activeSelf) 
+        //     int[] score = new int[] { 1, 2, 3};
+
+    }
+
+    public void changeScene()
+    {
+        GetComponent<ChangeScene>().changeScene(0);
+    }
+
+    public void addLeaderboardValue()
+    {
+
+        //playerName = GetComponent<LeaderboardManager>().
+        ScoreEntry newEntry = new ScoreEntry(playerName.GetComponent<InputField>().text, round, score);
+        GetComponent<LeaderboardManager>().AddEntryToLeaderboard(newEntry);
+        GetComponent<LeaderboardManager>().SaveLeaderboard();
+        GetComponent<LeaderboardManager>().LoadLeaderboard();
+    }
+
+
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
@@ -33,7 +34,7 @@ public class SetGameBoard : MonoBehaviour
 
         for (int i = 0; i < gameBoard.Length; i++)
         {
-            gameBoard[i] = ((int)Random.Range(0, 10)).ToString();
+            gameBoard[i] = ((int)Random.Range(0, 2)).ToString();
             Debug.Log("Gameboard " + i + ": " + gameBoard[i]);
         }
 
@@ -83,7 +84,13 @@ public class SetGameBoard : MonoBehaviour
         return gameTable[x][y].GetComponent<Text>().text;
     }
 
+    public void resetGame()
+    {
+        Start();
+    }
 
- 
+    
+
+
 }
 
