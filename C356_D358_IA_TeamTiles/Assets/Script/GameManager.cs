@@ -13,8 +13,6 @@ public class GameManager : MonoBehaviour
     public GameObject playerDesc, menuPage, winPage, winStatement, playerName, lossPage;
 
 
-
-
     // Start is called before the first frame update
     void Start()
     {
@@ -47,8 +45,6 @@ public class GameManager : MonoBehaviour
         if (currX == 5) btnDown.SetActive(false);
         if (currY == 0) btnLeft.SetActive(false);
         if (currY == 5) btnRight.SetActive(false);
-
-
 
 
         if (getCurrentPlayer() == "A")
@@ -245,7 +241,7 @@ public class GameManager : MonoBehaviour
         ScoreEntry newEntry = new ScoreEntry(playerName.GetComponent<InputField>().text, round, score);
         GetComponent<LeaderboardManager>().AddEntryToLeaderboard(newEntry);
         GetComponent<LeaderboardManager>().SaveLeaderboard();
-        GetComponent<LeaderboardManager>().LoadLeaderboard();
+        // GetComponent<LeaderboardManager>().LoadLeaderboard();
     }
 
 

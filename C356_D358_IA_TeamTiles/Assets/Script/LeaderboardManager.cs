@@ -15,43 +15,55 @@ public class LeaderboardManager : MonoBehaviour
     void Start()
     {
         LoadLeaderboard();
+        //LoadLeaderboard();
     }
 
     public void AddEntryToLeaderboard(ScoreEntry newEntry)
     {
-        if (onScoreLeaderBoard == null)
+        if (onScoreLeaderBoard == null && onRoundLeaderBoard == null)
         {
             onScoreLeaderBoard = new ScoreEntry[100];
+            onRoundLeaderBoard = new ScoreEntry[100];
             onScoreLeaderBoard[0] = newEntry;
-            Debug.Log("leaderboard = null");
+            onRoundLeaderBoard[0] = newEntry;
+            Debug.LogWarning("array empty");
             return;
         }
 
-        int insertIndex = 0;
-        while (insertIndex < 100 && onScoreLeaderBoard[insertIndex] != null &&
-            onScoreLeaderBoard[insertIndex].score > newEntry.score)
+        int insertScoreIndex = 0;
+        while (insertScoreIndex < 100 && onScoreLeaderBoard[insertScoreIndex] != null &&
+            onScoreLeaderBoard[insertScoreIndex].score > newEntry.score) { insertScoreIndex++; }
+
+        if (insertScoreIndex < 100)
         {
-            insertIndex++;
+            for (int i = 100 - 1; i > insertScoreIndex; i--) onScoreLeaderBoard[i] = onScoreLeaderBoard[i - 1];
+
+            onScoreLeaderBoard[insertScoreIndex] = newEntry;
         }
 
-        if (insertIndex < 100)
-        {
-            for (int i = 100 - 1; i > insertIndex; i--) onScoreLeaderBoard[i] = onScoreLeaderBoard[i - 1];
+        int insertRoundIndex = 0;
+        while (insertRoundIndex < 100 && onRoundLeaderBoard[insertRoundIndex] != null &&
+            onRoundLeaderBoard[insertRoundIndex].round < newEntry.round) { insertRoundIndex++; }
 
-            onScoreLeaderBoard[insertIndex] = newEntry;
+        if (insertRoundIndex < 100)
+        {
+            for (int i = 100 - 1; i > insertRoundIndex; i--) onRoundLeaderBoard[i] = onRoundLeaderBoard[i - 1];
+
+            onRoundLeaderBoard[insertRoundIndex] = newEntry;
         }
     }
 
     public void LoadLeaderboard()
     {
         onScoreLeaderBoard = new ScoreEntry[100];
-        string leaderboardData = PlayerPrefs.GetString("scoreLeaderboard", "");
-
-        if (!string.IsNullOrEmpty(leaderboardData))
+        onRoundLeaderBoard = new ScoreEntry[100];
+        string scoreData = PlayerPrefs.GetString("scoreLeaderboard", ""),
+            roundData = PlayerPrefs.GetString("roundLeaderboard", "");
+        if (!string.IsNullOrEmpty(scoreData))
         {
-            Debug.Log("LeaderboardData: " + leaderboardData);
+            Debug.Log("LeaderboardData: " + scoreData);
 
-            string[] entries = leaderboardData.Split('|');
+            string[] entries = scoreData.Split('|');
             for (int i = 0; i < entries.Length; i++)
             {
                 if (!string.IsNullOrEmpty(entries[i]))
@@ -65,24 +77,48 @@ public class LeaderboardManager : MonoBehaviour
             }
         }
         else Debug.LogWarning("EMPTY");
+
+        if (!string.IsNullOrEmpty(roundData))
+        {
+            Debug.Log("LeaderboardData: " + roundData);
+
+            string[] entries = roundData.Split('|');
+            for (int i = 0; i < entries.Length; i++)
+            {
+                if (!string.IsNullOrEmpty(entries[i]))
+                {
+                    string[] parts = entries[i].Split(',');
+                    string name = parts[0];
+                    int score = int.Parse(parts[1]);
+                    int round = int.Parse(parts[2]);
+                    onRoundLeaderBoard[i] = new ScoreEntry(name, round, score);
+                }
+            }
+        }
+        else Debug.LogWarning("EMPTY");
     }
 
     public void SaveLeaderboard()
     {
-        string leaderboardData = "";
+        string scoreData = "", roundData = "";
         for (int i = 0; i < 100; i++)
         {
             if (onScoreLeaderBoard[i] != null)
             {
-                leaderboardData += onScoreLeaderBoard[i].playerName + "," + onScoreLeaderBoard[i].round + "," + onScoreLeaderBoard[i].score + "|";
+                scoreData += onScoreLeaderBoard[i].playerName + "," + onScoreLeaderBoard[i].round + "," + onScoreLeaderBoard[i].score + "|";
+            }
+            if (onRoundLeaderBoard[i] != null)
+            {
+                roundData += onRoundLeaderBoard[i].playerName + "," + onRoundLeaderBoard[i].round + "," + onRoundLeaderBoard[i].score + "|";
             }
         }
 
-        PlayerPrefs.SetString("scoreLeaderboard", leaderboardData);
+        Debug.Log(scoreData + "\n round " + roundData);
+
+        PlayerPrefs.SetString("scoreLeaderboard", scoreData);
+        PlayerPrefs.SetString("roundLeaderboard", roundData);
     }
 }
-
-
 
 public class ScoreEntry
 {
