@@ -6,14 +6,11 @@ using UnityEngine.UI;
 
 public class MainPageManager : MonoBehaviour
 {
-
     public GameObject mainScene, howToPlayScene;
-
     public GameObject htpP1, htpP2, htpBtnPrevious, htpBtnNext, htpBtnHome;
-
     public GameObject displayRank, displayName, displayScore, displayRound, txtpage;
     public GameObject btnPrevious, btnNext;
-    int leaderboardpage;
+    int leaderboardpage, orderby; 
     //  public GameObject mainpageManager;
     // Start is called before the first frame update
     void Start()
@@ -114,6 +111,11 @@ public class MainPageManager : MonoBehaviour
             }
         }
         else Debug.LogWarning("EMPTY");
+    }
+
+    public void getLeaderboard()
+    {
+        if (orderby == 1) printLeaderBoard();
     }
 
     public void nextPage()
