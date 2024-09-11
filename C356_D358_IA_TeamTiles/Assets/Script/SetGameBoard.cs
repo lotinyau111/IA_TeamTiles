@@ -34,7 +34,7 @@ public class SetGameBoard : MonoBehaviour
 
         for (int i = 0; i < gameBoard.Length; i++)
         {
-            gameBoard[i] = ((int)Random.Range(0, 2)).ToString();
+            gameBoard[i] = ((int)Random.Range(0, 10)).ToString();
             Debug.Log("Gameboard " + i + ": " + gameBoard[i]);
         }
 

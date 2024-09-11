@@ -51,6 +51,8 @@ public class LeaderboardManager : MonoBehaviour
 
             onRoundLeaderBoard[insertRoundIndex] = newEntry;
         }
+
+        
     }
 
     public void LoadLeaderboard()
@@ -59,6 +61,8 @@ public class LeaderboardManager : MonoBehaviour
         onRoundLeaderBoard = new ScoreEntry[100];
         string scoreData = PlayerPrefs.GetString("scoreLeaderboard", ""),
             roundData = PlayerPrefs.GetString("roundLeaderboard", "");
+
+        Debug.Log("SCORE: " + scoreData + "\n"+"ROUND: "+ roundData );
         if (!string.IsNullOrEmpty(scoreData))
         {
             Debug.Log("LeaderboardData: " + scoreData);
