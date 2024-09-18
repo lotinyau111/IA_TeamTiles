@@ -51,8 +51,6 @@ public class LeaderboardManager : MonoBehaviour
 
             onRoundLeaderBoard[insertRoundIndex] = newEntry;
         }
-
-        
     }
 
     public void LoadLeaderboard()
