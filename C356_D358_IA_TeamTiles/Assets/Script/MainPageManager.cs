@@ -6,6 +6,10 @@ using UnityEngine.UI;
 
 public class MainPageManager : MonoBehaviour
 {
+
+
+
+
     public GameObject mainScene, howToPlayScene;
     public GameObject htpP1, htpP2, htpBtnPrevious, htpBtnNext, htpBtnHome;
     public GameObject displayRank, displayName, displayScore, displayRound, txtpage;

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Net;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -60,7 +61,9 @@ public class DatabaseManager : MonoBehaviour
             }
             else
             {
-                string[] entries = www.downloadHandler.text.Split(",|");
+
+                // Debug.Log("^" + www.downloadHandler.text.Substring(4) + ";");
+                string[] entries = www.downloadHandler.text.Substring(4).Split(",|");
                 result = new string[entries.Length, entries[0].Split(',').Length];
                 for (int i = 0; i < entries.Length; i++)
                 {
@@ -75,4 +78,21 @@ public class DatabaseManager : MonoBehaviour
     }
 
     public string getData(int x, int y) { return result[x, y]; }
+
+    public IEnumerator AddLog(string username, string logType, string logdetails)
+    {
+        Debug.Log("Add Log");
+        string privateIP = Dns.GetHostEntry(Dns.GetHostName()).AddressList[1].ToString();
+        string hostName = Dns.GetHostName();
+        string myIP = new System.Net.WebClient().DownloadString("https://api.ipify.org");
+
+        logdetails += "\nIP Address: " + myIP + " Private IP: " + privateIP + " Host Name: " + hostName;
+
+        string logSQL = "INSERT INTO `logHistory` (username, LogType, LogDetails) VALUES (\"";
+        logSQL += username + "\", \"" + logType + "\", \"" + logdetails + "\");";
+        Debug.Log(logSQL);
+
+       yield return receiveDBdata(logSQL);
+
+    }
 }
