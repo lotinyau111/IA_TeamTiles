@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/0_LoginScene.unity
     guid: c610d11e9e7134e43ad843856a117e8b
   - enabled: 1
-    path: Assets/Scenes/HomeScene.unity
+    path: Assets/Scenes/1_HomeScene.unity
     guid: 94176992d09e8c148aabd252f8244bb5
   - enabled: 1
     path: Assets/Scenes/LevelSelection.unity
