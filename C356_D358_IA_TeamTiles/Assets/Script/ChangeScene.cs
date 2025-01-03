@@ -14,4 +14,9 @@ public class ChangeScene : MonoBehaviour
     {
         changeScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
+
+    public void previousScene()
+    {
+        changeScene(SceneManager.GetActiveScene().buildIndex - 1);
+    }
 }

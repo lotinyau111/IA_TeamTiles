@@ -18,8 +18,6 @@ public class Mailing : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //        if (Input.GetKey(KeyCode.E)) SendEmail("lotinyau111@gmail.com", "Tin Yau", "Create Account", "Thank you for creating account. ");
-
 
     }
 

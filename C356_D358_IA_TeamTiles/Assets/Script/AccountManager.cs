@@ -85,7 +85,9 @@ public class AccountManager : MonoBehaviour
     public void onloadStartMenu()
     {
         // clear saved login details.
-        PlayerPrefs.DeleteKey("currentPlayer");
+        PlayerPrefs.DeleteKey(lt.keyCurrentPlayer);
+        PlayerPrefs.SetInt("languages", 0);
+
 
         // Assign language list (i.e., Lanaguge Package stored in Language Text
         List<string> langChoice = new List<string> { };
@@ -134,6 +136,8 @@ public class AccountManager : MonoBehaviour
         sulblPlayerName.GetComponent<Text>().text = lt.getDisplayValue(lt.playerName);
         sulblLanguage.GetComponent<Text>().text = lt.getDisplayValue(lt.language);
         sulbl2FA.GetComponent<Text>().text = lt.getDisplayValue(lt._2fa);
+        sulblBtnBack.GetComponent<Text>().text = lt.getDisplayValue(lt.back);
+        sulblBtnSignUp.GetComponent<Text>().text = lt.getDisplayValue(lt.signUp);
     }
 
     public void startMenuSignIn()
@@ -408,17 +412,17 @@ public class AccountManager : MonoBehaviour
         else
         {
             // update password from database 
-            string updateSql = "UPDATE `useraccount` SET `password` = \"" + databaseManager.GetComponent<DatabaseManager>().hashPassword(cpNewPwdtxt.GetComponent<InputField>().text) + " where `username` = \"" + PlayerPrefs.GetString("currentPlayer") + "\"";
+            string updateSql = "UPDATE `useraccount` SET `password` = \"" + databaseManager.GetComponent<DatabaseManager>().hashPassword(cpNewPwdtxt.GetComponent<InputField>().text) + "\" where `username` = \"" + PlayerPrefs.GetString(lt.keyCurrentPlayer) + "\"";
             await databaseManager.GetComponent<DatabaseManager>().receiveDBdata(updateSql);
 
             // clear temp save data 
             cpNewPwdtxt.GetComponent<InputField>().text = string.Empty;
             cpReNewPwdtxt.GetComponent<InputField>().text = string.Empty;
-            PlayerPrefs.DeleteKey("currentPlayer");
+            PlayerPrefs.DeleteKey(lt.keyCurrentPlayer);
             canvasfpChangePwd.SetActive(false);
 
             // Reset password log
-            StartCoroutine(databaseManager.GetComponent<DatabaseManager>().AddLog(PlayerPrefs.GetString("currentPlayer"), "Reset Password", ("Reset password - Password Changed.")));
+            StartCoroutine(databaseManager.GetComponent<DatabaseManager>().AddLog(PlayerPrefs.GetString(lt.keyCurrentPlayer), "Reset Password", ("Reset password - Password Changed.")));
 
         }
     }
@@ -428,7 +432,7 @@ public class AccountManager : MonoBehaviour
         canvassiLogining.SetActive(true);
         siLoginingTxt.GetComponent<Text>().text = lt.getDisplayValue(lt.loading);
         // check if login username / email + password correct 
-        string loginSql = databaseManager.GetComponent<DatabaseManager>().selectSQLtoString("COUNT(id), username, email, 2FA, locked", "useraccount",
+        string loginSql = databaseManager.GetComponent<DatabaseManager>().selectSQLtoString("COUNT(id), username, email, 2FA, locked, lang", "useraccount",
             ("(username = \"" + sitxtUsername.GetComponent<InputField>().text + "\" or email = \"" + sitxtUsername.GetComponent<InputField>().text + "\") and password = \"" +
             databaseManager.GetComponent<DatabaseManager>().hashPassword(sitxtPassword.GetComponent<InputField>().text) + "\""));
         await databaseManager.GetComponent<DatabaseManager>().receiveDBdata(loginSql);
@@ -450,8 +454,8 @@ public class AccountManager : MonoBehaviour
         else if (result == "1")
         {
             // save current player data 
-            PlayerPrefs.GetString("currentPlayer", databaseManager.GetComponent<DatabaseManager>().getData(0, 1));
-
+            PlayerPrefs.SetString("currentPlayer", databaseManager.GetComponent<DatabaseManager>().getData(0, 1));
+            
             // check if account is locked
             if (databaseManager.GetComponent<DatabaseManager>().getData(0, 4) == "1")
             {
@@ -569,6 +573,7 @@ public class AccountManager : MonoBehaviour
 
     public void siSignInSuccess()
     {
+
         // clear inputfield
         sitxtUsername.GetComponent<InputField>().text = string.Empty;
         sitxtPassword.GetComponent<InputField>().text = string.Empty;
@@ -576,7 +581,9 @@ public class AccountManager : MonoBehaviour
         // Login Log
         StartCoroutine(databaseManager.GetComponent<DatabaseManager>().AddLog(PlayerPrefs.GetString("currentPlayer"), "Login", "Login - Login Success. "));
         canvassiLogining.SetActive(false);
-
+        int langIndex = int.Parse(databaseManager.GetComponent<DatabaseManager>().getData(0, 5));
+        print(langIndex);
+        PlayerPrefs.SetInt("languages", langIndex);
         // Change Next scene;
         GetComponent<ChangeScene>().nextScene();
     }
@@ -851,6 +858,3 @@ public class AccountManager : MonoBehaviour
         }
     }
 }
-//505 -495
-//687 -313
-//841 -159
